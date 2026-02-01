@@ -32,7 +32,7 @@ const Navbar = () => {
                 )}
               </button>
             </div>
-            <h2 className="font-dancing text-3xl md:text-2xl">Dribble</h2>
+            <h2 className="text-3xl md:text-2xl">Dribble</h2>
           </div>
           <div className="hidden md:flex items-center bg-gray-100 rounded-full px-4 py-2 w-full shadow-sm">
             <input
