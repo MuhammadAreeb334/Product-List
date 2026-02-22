@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import image from "../Components/Assets/image.jpg";
+// import image from "../Components/Assets/image.jpg";
 import { RiShoppingCartFill } from "react-icons/ri";
 import { FireAPI } from "../hooks/useRequest";
 import { FaStar } from "react-icons/fa";
@@ -8,22 +8,6 @@ import Slider from "react-slick";
 const ProductCard = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  const getProducts = async () => {
-    try {
-      setLoading(true);
-      const data = await FireAPI("products", "GET", null, null);
-      console.log("Fetched Data:", data);
-      setProducts(data?.products || []);
-    } catch (error) {
-      console.log("Error fetching products:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    getProducts();
-  }, []);
 
   const sliderSetting = {
     dots: false,
@@ -35,14 +19,107 @@ const ProductCard = () => {
     autoplay: true,
     autoplaySpeed: 2500,
   };
+
+  useEffect(() => {
+    const getProducts = async () => {
+      setLoading(true);
+      try {
+        const data = await FireAPI("products", "GET", null, null);
+        console.log("Fetched Data:", data);
+        setProducts(data?.products || []);
+      } catch (error) {
+        console.log("Error Feting products: ", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getProducts();
+  }, []);
+
+  const handleAddProduct = async () => {
+    const newProduct = {
+      id: 31,
+      title: "Essence Mascara Lash Princess",
+      brand: "Essence",
+      category: "beauty",
+      price: 9.99,
+      discountPercentage: 7.17,
+      rating: 4.94,
+      stock: 5,
+      availabilityStatus: "In Stock",
+      images: [
+        "https://cdn.dummyjson.com/products/images/beauty/Essence%20Mascara%20Lash%20Princess/1.png",
+      ],
+    };
+    try {
+      const response = await FireAPI("products/add", "POST", newProduct);
+      console.log("Product added:", response);
+      setProducts([...products, response]);
+    } catch (error) {
+      console.log("Error Uploading Product: ", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleUpdateProduct = async (id) => {
+    const updatedData = {
+      title: "Updated Product Title",
+      price: 149,
+    };
+    try {
+      const response = await FireAPI(`products/${id}`, "PUT", updatedData);
+      console.log("Product updated:", response);
+      setProducts((prev) =>
+        prev.map((p) => (p.id === id ? { ...p, ...updatedData } : p)),
+      );
+    } catch (error) {
+      console.log("Error Updating Product", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteProduct = async (id) => {
+    try {
+      const response = await FireAPI(`products/${id}`, "DELETE");
+      console.log("product deleted");
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+    } catch (error) {
+      console.log("Error Updating Product", error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div>
+    <div className="px-4 py-2">
+      <div className="flex gap-3 mb-4">
+        <button
+          onClick={handleAddProduct}
+          className="bg-green-500 text-white px-3 py-1 rounded"
+        >
+          Add Product
+        </button>
+        <button
+          onClick={() => handleUpdateProduct(products[0]?.id)}
+          className="bg-yellow-500 text-white px-3 py-1 rounded"
+        >
+          Update First Product
+        </button>
+        <button
+          onClick={() => handleDeleteProduct(products[0]?.id)}
+          className="bg-red-500 text-white px-3 py-1 rounded"
+        >
+          Delete First Product
+        </button>
+      </div>
       {loading ? (
         <div>
           <p>loading...</p>
         </div>
       ) : (
-        <div className="px-4 py-2">
+        <div className="">
           <div className="grid gap-6 m-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {products.map((item) => (
               <div

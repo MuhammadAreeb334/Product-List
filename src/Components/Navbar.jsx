@@ -32,7 +32,7 @@ const Navbar = () => {
                 )}
               </button>
             </div>
-            <h2 className="text-3xl md:text-2xl">Dribble</h2>
+            <h2 className="text-3xl md:text-2xl">2Trends</h2>
           </div>
           <div className="hidden md:flex items-center bg-gray-100 rounded-full px-4 py-2 w-full shadow-sm">
             <input
@@ -77,7 +77,7 @@ const Navbar = () => {
       </div>
       <div className="mobile-menu lg:hidden">
         <div
-          className={`lg:hidden fixed top-18 left-0 w-full bg-white transform transition-transform duration-300 ease-in-out
+          className={`lg:hidden fixed z-50 top-18 left-0 w-full bg-white transform transition-transform duration-300 ease-in-out
             ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
         >
           <ul className="flex flex-col gap-5 items-start md:items-center text-lg font-medium py-8 px-6">
