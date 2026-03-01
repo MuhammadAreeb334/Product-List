@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import image from "../Components/Assets/image.jpg";
 import { RiShoppingCartFill } from "react-icons/ri";
 import { FireAPI } from "../hooks/useRequest";
 import { FaStar } from "react-icons/fa";
@@ -180,13 +179,3 @@ const ProductCard = () => {
 };
 
 export default ProductCard;
-
-// data?.products?.forEach((product) => {
-//         console.log(`Product: ${product.title}`);
-//         console.log("Images:", product.images); // array of URLs
-//
-// individually
-//          product.images.forEach((img, index) => {
-//           console.log(`Image ${index + 1}: ${img}`);
-//         });
-//       });
