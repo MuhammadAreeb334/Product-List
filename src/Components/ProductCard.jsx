@@ -37,7 +37,7 @@ const ProductCard = () => {
 
   const handleAddProduct = async () => {
     const newProduct = {
-      id: 31,
+      id: 32,
       title: "Essence Mascara Lash Princess",
       brand: "Essence",
       category: "beauty",
